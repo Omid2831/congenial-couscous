@@ -20,7 +20,7 @@ const api = '/api/notes';
 app.use(api, noteRoute);
 
 // Define the port the server will listen on
-const port = 8080;
+const port = process.env.port || 8080;
 
 // Start the server
 app.listen(port, () => {
