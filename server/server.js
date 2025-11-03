@@ -1,12 +1,21 @@
-// import express from 'express';
+// Import Express framework
 const express = require('express');
-// Wraping the express as an app
+
+// Create an Express application
 const app = express();
 
-// give the router a port
-const port = 5001
+// Middleware to parse JSON request bodies
+app.use(express.json());
 
-// Server runs on this port!
-app.listen(port, ()=>{
-    console.log(`app is starting at ${port}`)
+// Define a GET route to fetch notes
+app.get('/api/notes', (req, res) => {
+    res.send('you got the note');
+});
+
+// Define the port the server will listen on
+const port = 8080;
+
+// Start the server
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });
