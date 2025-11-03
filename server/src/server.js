@@ -1,7 +1,8 @@
+import 'dotenv/config';
 import express from 'express';
 
 // Import DB 
-import conneectDB from './config/db.js'
+import connectDB from './config/db.js'
 
 // Import the noteRoutes CRUD
 import noteRoute from './routes/notesRoutes.js';
@@ -9,8 +10,8 @@ import noteRoute from './routes/notesRoutes.js';
 // Create an Express application
 const app = express();
 
-// Connect MANGODB
-conneectDB();
+// Connect MongoDB
+connectDB();
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
@@ -19,10 +20,13 @@ app.use(express.json());
 const api = '/api/notes';
 app.use(api, noteRoute);
 
-// Define the port the server will listen on
-const port = process.env.port || 8080;
+
+// Define the port the server will listen
+const port = Number(process.env.PORT);
+const baseUrl = `http://localhost:${port}`;
 
 // Start the server
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Server ready: ${baseUrl}`);
+    console.log(`Notes API: ${baseUrl}${api}`);
 });
