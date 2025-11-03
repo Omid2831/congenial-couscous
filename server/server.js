@@ -10,12 +10,14 @@ app.use(express.json());
 // Define a GET route to fetch notes
 app.get('/api/notes', (req, res) => {
     // send the notes
-    res.status(200).send('you got the note');
+    res.status(200).send('you got the file here');
 });
 // Define a route to delete notes
 app.post('/api/notes', (req, res) => {
-
-    res.status(201).send('your note has been created successfully!');
+    // creating a note as a message to the user visually
+    res.status(201).json({
+        message: "post created successfully!"
+    })
 });
 
 // Define the port the server will listen on
