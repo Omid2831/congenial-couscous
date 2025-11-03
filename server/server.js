@@ -22,10 +22,18 @@ app.post('/api/notes', (req, res) => {
 });
 
 // update a route by its id
-app.post('/api/notes/:id', (req, res) => {
+app.put('/api/notes/:id', (req, res) => {
     // creating a note as a message to the user visually
     res.status(200).json({
         message: "post updated successfully!"
+    })
+});
+
+// delete a route by its id
+app.delete('/api/notes/:id', (req, res) => {
+    // creating a note as a message to the user visually
+    res.status(200).json({
+        message: "post deleted successfully!"
     })
 });
 
