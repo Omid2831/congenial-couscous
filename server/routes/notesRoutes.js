@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 
-router.get('/get', (req, res) => {
+router.get('/', (req, res) => {
     // send the notes
     res.status(200).send('you just fetched the notes');
 });
