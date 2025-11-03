@@ -1,15 +1,14 @@
-import express from 'express';
-
+const express = require('express');
 const router = express.Router();
 
 
-router.get('/api/notes', (req, res) => {
+router.get('/get', (req, res) => {
     // send the notes
     res.status(200).send('you just fetched the notes');
 });
 
 // Define a route to create notes
-router.post('/api/notes', (req, res) => {
+router.post('/post', (req, res) => {
     // creating a note as a message to the user visually
     res.status(201).json({
         message: "post created successfully!"
@@ -17,7 +16,7 @@ router.post('/api/notes', (req, res) => {
 });
 
 // update a route by its id
-router.put('/api/notes/:id', (req, res) => {
+router.put('/:id', (req, res) => {
     // creating a note as a message to the user visually
     res.status(200).json({
         message: "post updated successfully!"
@@ -25,7 +24,7 @@ router.put('/api/notes/:id', (req, res) => {
 });
 
 // delete a route by its id
-app.delete('/api/notes/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
     // creating a note as a message to the user visually
     res.status(200).json({
         message: "post deleted successfully!"
@@ -33,7 +32,7 @@ app.delete('/api/notes/:id', (req, res) => {
 });
 
 
-export default router;
+module.exports = router;
 
 
 
