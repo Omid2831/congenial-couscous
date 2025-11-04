@@ -33,7 +33,7 @@ const CreateNotes = () => {
         }
       }
       const port = 8080
-      const URL = `http://localhost:${port}`;
+      const URL = `http://localhost:${port}/api/notes`;
       postNote(URL)
     } catch (error) {
 
