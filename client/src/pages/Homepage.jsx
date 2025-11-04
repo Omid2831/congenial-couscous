@@ -24,7 +24,8 @@ const Homepage = () => {
         if (error.response && error.response?.status === 429) {
           setIsRateLimited(true);
         } else {
-          toast.error('Failed to fetch notes')
+          // Use a fixed toast id to avoid duplicate toasts in React StrictMode
+          toast.error('Failed to fetch notes', { id: 'fetch-notes' })
         }
       } finally {
         setIsLoading(false);
