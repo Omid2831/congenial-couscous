@@ -18,7 +18,7 @@ export async function getAllNotes(req, res) {
 export async function getNotesById(_, res)
 {
     try {
-        const notes = await Note.find().sort({createdAt: 1})
+        const notes = await Note.find().sort({createdAt: -1})
         res.status(200).json(notes)
     } catch (error) {
         console.error('Error in getAllNotes controller', error);
