@@ -31,7 +31,7 @@ app.use(api, noteRoute);
 
 
 // Define the port the server will listen
-const port = Number(process.env.PORT);
+const port = Number(process.env.PORT) || 8080;
 const baseUrl = `http://localhost:${port}`;
 
 
