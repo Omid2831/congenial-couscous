@@ -6,9 +6,19 @@ import connectDB from './config/db.js'
 import noteRoute from './routes/notesRoutes.js';
 // rate limiter on the server request
 import rateLimiter from './middleware/rateLimiter.js';
+// importing cors for security reasons
+import cors from 'cors'
 
 // Create an Express application
 const app = express();
+
+
+// CORS middleware
+app.use(
+    cors({
+        origin: ['http://localhost:5173'],
+    })
+);
 
 
 // Middleware 
