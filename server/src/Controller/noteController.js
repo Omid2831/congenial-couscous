@@ -15,10 +15,9 @@ export async function getAllNotes(req, res) {
     }
 }
 
-export async function getNotesById(_, res)
-{
+export async function getNotesById(_, res) {
     try {
-        const notes = await Note.find().sort({createdAt: -1})
+        const notes = await Note.find().sort({ createdAt: -1 })
         res.status(200).json(notes)
     } catch (error) {
         console.error('Error in getAllNotes controller', error);
@@ -51,10 +50,10 @@ export async function createNotes(req, res) {
 export async function updateNotes(req, res) {
 
     try {
-        const {title, content} = req.body;
-       const updateNote = await Note.findByIdAndUpdate(req.params.id, { title, content}, {new: true})
+        const { title, content } = req.body;
+        const updateNote = await Note.findByIdAndUpdate(req.params.id, { title, content }, { new: true })
 
-       if(!updateNote) return res.status(404).json({message: 'Not Note found'});
+        if (!updateNote) return res.status(404).json({ message: 'Not Note found' });
 
         res.status(200).json(updateNote);
     } catch (error) {
@@ -67,16 +66,15 @@ export async function updateNotes(req, res) {
 
 // delete a route by its id
 export async function deleteNotes(req, res) {
-   
+
     try {
-        const {title, content} = req.body;
-        const deleteNote = await Note.findByIdAndDelete(req.params.id, { title, content})
+        const deleteNote = await Note.findByIdAndDelete(req.params.id)
 
-         if(!deleteNote) return res.status(404).json({message: 'Not Note found'})
+        if (!deleteNote) return res.status(404).json({ message: 'Note not found' })
 
-        res.status(200).json(deleteNote)
+        res.status(200).json({ message: 'Note deleted successfully', note: deleteNote })
     } catch (error) {
-         console.error('Error in createNotes controller', error);
+        console.error('Error in deleteNotes controller', error);
         res.status(500).json({
             message: 'Internal server error'
         })
