@@ -1,51 +1,66 @@
 import { ArrowLeft } from 'lucide-react';
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import toast from 'react-hot-toast';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import api from '../lib/axios';
 
-const CreateNotes = () => {
+const UpdateNotes = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
 
   const navigate = useNavigate();
+  const { id } = useParams();
 
-  const handleSubmit = (e) => {
+  
+  useEffect(() => {
+    const fetchNote = async () => {
+      try {
+        const res = await api.get(`http://localhost:8080/api/notes/${id}`);
+        setTitle(res.data.title || '');
+        setContent(res.data.content || '');
+      } catch (error) {
+        console.error('Error fetching note:', error);
+        toast.error('Failed to load note');
+        navigate('/');
+      } finally {
+        setFetching(false);
+      }
+    };
+
+    if (id) {
+      fetchNote();
+    }
+  }, [id, navigate]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!title.trim() || !content.trim()) {
+      toast.error('All fields are required');
+      return;
+    }
 
-    setLoading(true)
+    setLoading(true);
     try {
-      async function postNote(URL) {
-        try {
-          await api.post(URL, { title, content })
-          toast.success('Note Created succcessfully!')
-          navigate("/")
-        } catch (error) {
-          console.error('Error creating note', error)
-          if (error.response.status === 429) {
-            toast.error('SLOW DOWN!, You are creating too fast!', {
-              duration: 4000,
-              icon: "😐"
-            })
-          }
-          toast.error('Failed to create note!');
-        } finally {
-          setLoading(false);
-        }
-      }
-      postNote('/post')
+      await api.put(`/notes/${id}`, { title, content });
+      toast.success('Note updated successfully!');
+      navigate("/");
     } catch (error) {
-      console.error('Error creating note', error)
-      if (error.response.status === 429) {
-        toast.error('SLOW DOWN!, You are creating too fast!', {
-          duration: 4000,
-          icon: "😐"
-        })
-      }
-      toast.error('Failed to create note!');
+      console.error('Error updating note', error);
+      toast.error('Failed to update note!');
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (fetching) {
+    return (
+      <div className="min-h-screen bg-base-200 flex items-center justify-center">
+        <span className="loading loading-spinner loading-lg text-primary">here</span>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-base-200">
@@ -60,7 +75,7 @@ const CreateNotes = () => {
 
           <div className='card bg-base-100 shadow-xl'>
             <div className='card-body'>
-              <h2 className='card-title text-2xl mb-6'>Create New Note</h2>
+              <h2 className='card-title text-2xl mb-6'>Edit Note</h2>
 
               <form onSubmit={handleSubmit} className='space-y-6'>
                 <div className="form-control">
@@ -97,10 +112,10 @@ const CreateNotes = () => {
                     {loading ? (
                       <>
                         <span className="loading loading-spinner"></span>
-                        Creating...
+                        Updating...
                       </>
                     ) : (
-                      'Create Note'
+                      'Update Note'
                     )}
                   </button>
                 </div>
@@ -113,4 +128,4 @@ const CreateNotes = () => {
   )
 }
 
-export default CreateNotes
+export default UpdateNotes
