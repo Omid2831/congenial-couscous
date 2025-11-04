@@ -1,5 +1,6 @@
 import { ArrowLeft } from 'lucide-react';
 import React, { useState } from 'react'
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom'
 
 const CreateNotes = () => {
@@ -10,9 +11,9 @@ const CreateNotes = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    console.log(title);
-    console.log(content);
+    if(!title.trim() || !content.trim()){
+      toast.error('All fields must be required')
+    }
   };
 
   return (
