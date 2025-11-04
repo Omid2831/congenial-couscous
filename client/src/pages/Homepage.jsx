@@ -12,6 +12,17 @@ const Homepage = () => {
   const [notes, setNotes] = useState([]);
   const [Loading, setLoading] = useState(true);
 
+  // Auto-clear rate limit after 20 seconds
+  useEffect(() => {
+    if (isRateLimited) {
+      const timer = setTimeout(() => {
+        setIsRateLimited(false);
+      }, 20000); // 20 seconds
+
+      return () => clearTimeout(timer); // Cleanup on unmount
+    }
+  }, [isRateLimited]);
+
   useEffect(() => {
     async function fetchData(URL) {
       try {
