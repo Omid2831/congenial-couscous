@@ -13,8 +13,15 @@ const app = express();
 // Connect MongoDB
 connectDB();
 
-// Middleware to parse JSON request bodies
+// Middleware 
 app.use(express.json());
+
+
+// Custom Middleware
+// app.use((req,res, next)=>{
+//     console.log(`Request method is ${req.method} && Request_URL is ${req.url}`)
+//     next()
+// })
 
 // creating a path for API
 const api = '/api/notes';
