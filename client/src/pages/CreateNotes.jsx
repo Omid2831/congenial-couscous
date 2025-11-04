@@ -19,7 +19,7 @@ const CreateNotes = () => {
     try {
       async function postNote(URL) {
         try {
-          await axios.post(URL, { title, content })
+          await api.post(URL, { title, content })
           toast.success('Note Created succcessfully!')
           navigate("/")
         } catch (error) {
