@@ -10,8 +10,6 @@ import rateLimiter from './middleware/rateLimiter.js';
 // Create an Express application
 const app = express();
 
-// Connect MongoDB
-connectDB();
 
 // Middleware 
 app.use(express.json());
@@ -26,8 +24,12 @@ app.use(api, noteRoute);
 const port = Number(process.env.PORT);
 const baseUrl = `http://localhost:${port}`;
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Server ready: ${baseUrl}`);
-    console.log(`Notes API: ${baseUrl}${api}`);
-});
+
+// Connect MongoDB
+connectDB().then(() => {
+    // Start the server
+    app.listen(port, () => {
+        console.log(`Server ready: ${baseUrl}`);
+        console.log(`Notes API: ${baseUrl}${api}`);
+    });
+})
