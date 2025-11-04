@@ -16,11 +16,62 @@ const CreateNotes = () => {
         <div className="max-w-2xl mx-auto">
           <Link to={"/"} className="btn btn-ghost mb-6">
             <ArrowLeft className='size-5' />
-            <span
-              className='text-shadow-amber-900 font-bold text-gray-400 font-mono '>
+            <span className='text-xl font-bold text-gray-400 font-mono'>
               Back to Notes
             </span>
           </Link>
+
+          <div className='card bg-base-100 shadow-xl'>
+            <div className='card-body'>
+              <h2 className='card-title text-2xl mb-6'>Create New Note</h2>
+
+              <form onSubmit={handleSubmit} className='space-y-6'>
+                <div className="form-control">
+                  <label className="label mb-3">
+                    <span className="label-text font-semibold">Title</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder='Enter your note title...'
+                    className='input input-bordered input-primary border-3 border-dashed w-full text-lg'
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="form-control">
+                  <label className="label mb-4">
+                    <span className="label-text font-semibold">Content</span>
+                  </label>
+                  <textarea
+                    placeholder='Write your note content here...'
+                    className='textarea textarea-bordered textarea-primary border-3 border-dashed w-full h-64 text-base leading-relaxed'
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className='card-actions justify-end pt-4'>
+                  <button
+                    type='submit'
+                    className='btn btn-primary btn-lg'
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <>
+                        <span className="loading loading-spinner"></span>
+                        Creating...
+                      </>
+                    ) : (
+                      'Create Note'
+                    )}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
