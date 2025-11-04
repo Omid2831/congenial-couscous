@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ArrowLeft } from 'lucide-react';
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { Link , useNavigate } from 'react-router-dom'
 
 const CreateNotes = () => {
   const [title, setTitle] = useState('');
@@ -13,10 +13,6 @@ const CreateNotes = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title.trim() || !content.trim()) {
-      toast.error('All fields must be required');
-      return;
-    }
 
     setLoading(true)
     try {
@@ -27,6 +23,12 @@ const CreateNotes = () => {
           navigate("/")
         } catch (error) {
           console.error('Error creating note', error)
+          if(error.response.status === 429){
+            toast.error('SLOW DOWN!, You are creating too fast!', {
+              duration: 4000,
+              icon: "😐"
+            })
+          }
           toast.error('Failed to create note!');
         } finally {
           setLoading(false);
