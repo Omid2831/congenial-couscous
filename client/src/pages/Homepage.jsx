@@ -20,15 +20,18 @@ const Homepage = () => {
         setIsRateLimited(false)
       } catch (error) {
         console.error('Error fetching data');
-        if(error.response.status === 429){
+        if (error.response.status === 429) {
           setIsRateLimited(true);
-        }else{
+        } else {
           toast.error('Failed to fetch notes')
         }
+      } finally {
+        setIsLoading(false);
       }
     }
-    setURL = 'http://localhost:5173'
-    fetchData(setURL);
+    const port = 8080;
+    const URL = `http://localhost:${port}/api/notes`;
+    fetchData(URL);
   }, [])
   return (
     <div className='min-h-screen border-4 border-gray-400 border-dashed'>
