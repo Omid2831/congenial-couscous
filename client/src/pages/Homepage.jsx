@@ -19,8 +19,9 @@ const Homepage = () => {
         setNotes(res.data);
         setIsRateLimited(false)
       } catch (error) {
-        console.error('Error fetching data');
-        if (error.response.status === 429) {
+        console.error('Error fetching data:', error);
+        console.log(error);
+        if (error.response && error.response?.status === 429) {
           setIsRateLimited(true);
         } else {
           toast.error('Failed to fetch notes')
