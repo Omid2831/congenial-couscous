@@ -2,7 +2,8 @@ import axios from 'axios';
 import { ArrowLeft } from 'lucide-react';
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
-import { Link , useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import api from '../lib/axios';
 
 const CreateNotes = () => {
   const [title, setTitle] = useState('');
@@ -23,7 +24,7 @@ const CreateNotes = () => {
           navigate("/")
         } catch (error) {
           console.error('Error creating note', error)
-          if(error.response.status === 429){
+          if (error.response.status === 429) {
             toast.error('SLOW DOWN!, You are creating too fast!', {
               duration: 4000,
               icon: "😐"
@@ -34,11 +35,16 @@ const CreateNotes = () => {
           setLoading(false);
         }
       }
-      const port = 8080
-      const URL = `http://localhost:${port}/api/notes`;
-      postNote(URL)
+      postNote()
     } catch (error) {
-
+      console.error('Error creating note', error)
+      if (error.response.status === 429) {
+        toast.error('SLOW DOWN!, You are creating too fast!', {
+          duration: 4000,
+          icon: "😐"
+        })
+      }
+      toast.error('Failed to create note!');
     }
   };
 
