@@ -1,18 +1,42 @@
+import axios from 'axios';
 import { ArrowLeft } from 'lucide-react';
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 
 const CreateNotes = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(!title.trim() || !content.trim()){
-      toast.error('All fields must be required')
+    if (!title.trim() || !content.trim()) {
+      toast.error('All fields must be required');
+      return;
+    }
+
+    setLoading(true)
+    try {
+      async function postNote(URL) {
+        try {
+          await axios.post(URL, { title, content })
+          toast.success('Note Created succcessfully!')
+          navigate("/")
+        } catch (error) {
+          console.error('Error creating note', error)
+          toast.error('Failed to create note!');
+        } finally {
+          setLoading(false);
+        }
+      }
+      const port = 8080
+      const URL = `http://localhost:${port}`;
+      postNote(URL)
+    } catch (error) {
+
     }
   };
 
@@ -42,7 +66,6 @@ const CreateNotes = () => {
                     className='input input-bordered input-primary border-3 border-dashed w-full text-lg'
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    required
                   />
                 </div>
 
@@ -55,7 +78,6 @@ const CreateNotes = () => {
                     className='textarea textarea-bordered textarea-primary border-3 border-dashed w-full h-64 text-base leading-relaxed'
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    required
                   />
                 </div>
 
