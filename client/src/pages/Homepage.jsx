@@ -21,9 +21,9 @@ const Homepage = () => {
         setIsRateLimited(false)
       } catch (error) {
         console.error('Error fetching data:', error);
-        console.log(error);
         if (error.response && error.response?.status === 429) {
           setIsRateLimited(true);
+          toast.error('Too many requests! Please wait.', { id: 'rate-limit' });
         } else {
           // Use a fixed toast id to avoid duplicate toasts in React StrictMode
           toast.error('Failed to fetch notes', { id: 'fetch-notes' })
@@ -43,14 +43,14 @@ const Homepage = () => {
       {isRateLimited && <RateLimitUI />}
 
       <div
-      className='max-w-7xl mx-auto mt-6'>
+        className='max-w-7xl mx-auto mt-6'>
         {Loading && <div className='text-3xl font-bold font-mono text-center text-primary py-10'>Loading notes....</div>}
 
-        {notes.length > 0 && !isRateLimited &&(
+        {notes.length > 0 && !isRateLimited && (
           <div
-          className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-            {notes.map((note)=>(
-            <NoteCard key={note.id} note={note}/>
+            className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+            {notes.map((note) => (
+              <NoteCard key={note.id} note={note} />
             ))}
           </div>
         )}
