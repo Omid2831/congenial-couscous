@@ -5,7 +5,7 @@ import CreateNotes from "./pages/CreateNotes"
 
 const App = () => {
   return (
-    <div>
+    <div className="min-h-screen w-full">
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/noteDetails" element={<Notedetails />} />
