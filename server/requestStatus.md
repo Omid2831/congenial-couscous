@@ -48,7 +48,12 @@ Server errors indicate a problem on the server side. Return useful, non-sensitiv
 - 503 Service Unavailable — Server is currently unable to handle the request (overloaded or down for maintenance).
   Example: Maintenance window -> 503 with Retry-After header.
 
+## rate limiting requests
 
+- Rate limiting is a way to control how often someone can do something on a website or app
+  like how many times they can refresh a page, make a request to an API, or try to log in.
+
+- example: Only 100 requests per user every 15 minutes
 
 ---
 
