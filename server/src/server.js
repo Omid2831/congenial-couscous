@@ -1,11 +1,11 @@
 import 'dotenv/config';
 import express from 'express';
-
 // Import DB 
 import connectDB from './config/db.js'
-
 // Import the noteRoutes CRUD
 import noteRoute from './routes/notesRoutes.js';
+// rate limiter on the server request
+import rateLimiter from './middleware/rateLimiter.js';
 
 // Create an Express application
 const app = express();
@@ -15,13 +15,7 @@ connectDB();
 
 // Middleware 
 app.use(express.json());
-
-
-// Custom Middleware
-// app.use((req,res, next)=>{
-//     console.log(`Request method is ${req.method} && Request_URL is ${req.url}`)
-//     next()
-// })
+app.use(rateLimiter)
 
 // creating a path for API
 const api = '/api/notes';
