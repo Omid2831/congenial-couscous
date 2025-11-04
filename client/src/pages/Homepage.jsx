@@ -5,11 +5,12 @@ import { useState } from 'react'
 import RateLimitUI from '../components/RateLimitUI'
 import { useEffect } from 'react'
 import axios from 'axios'
+import NoteCard from '../components/NoteCard'
 
 const Homepage = () => {
   const [isRateLimited, setIsRateLimited] = useState(false);
   const [notes, setNotes] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [Loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData(URL) {
@@ -28,7 +29,7 @@ const Homepage = () => {
           toast.error('Failed to fetch notes', { id: 'fetch-notes' })
         }
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     }
     const port = 8080;
@@ -39,14 +40,21 @@ const Homepage = () => {
     <div className='min-h-screen border-4 border-gray-400 border-dashed'>
       <NavBar />
 
-      {/* <div className='flex flex-col items-center m-4 gap-4'>
-        <h2 className='text-center p-2 m-4 text-5xl'>Homepage</h2>
-        <button
-          onClick={() => { toast.success('here we go again') }}
-          className='btn btn-accent text-center w-45'>Click Me</button>
-      </div> */}
-
       {isRateLimited && <RateLimitUI />}
+
+      <div
+      className='max-w-7xl mx-auto mt-6'>
+        {Loading && <div className='text-3xl font-bold font-mono text-center text-primary py-10'>Loading notes....</div>}
+
+        {notes.length > 0 && !isRateLimited &&(
+          <div
+          className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+            {notes.map((note)=>(
+            <NoteCard key={note.id} note={note}/>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
