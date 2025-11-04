@@ -15,12 +15,17 @@ export async function getAllNotes(req, res) {
     }
 }
 
-export async function getNotesById(_, res) {
+export async function getNotesById(req, res) {
     try {
-        const notes = await Note.find().sort({ createdAt: -1 })
-        res.status(200).json(notes)
+        const note = await Note.findById(req.params.id)
+
+        if (!note) {
+            return res.status(404).json({ message: 'Note not found' })
+        }
+
+        res.status(200).json(note)
     } catch (error) {
-        console.error('Error in getAllNotes controller', error);
+        console.error('Error in getNotesById controller', error);
         res.status(500).json({
             message: 'Internal server error'
         })
@@ -57,7 +62,7 @@ export async function updateNotes(req, res) {
 
         res.status(200).json(updateNote);
     } catch (error) {
-         console.error('Error in createNotes controller', error);
+        console.error('Error in createNotes controller', error);
         res.status(500).json({
             message: 'Internal server error'
         })
