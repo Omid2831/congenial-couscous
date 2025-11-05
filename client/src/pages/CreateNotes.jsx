@@ -29,21 +29,14 @@ const CreateNotes = () => {
               icon: "😐"
             })
           }
-          toast.error('Failed to create note!');
         } finally {
           setLoading(false);
         }
       }
-      postNote('/post')
+      postNote('/notes')
     } catch (error) {
-      console.error('Error creating note', error)
-      if (error.response.status === 429) {
-        toast.error('SLOW DOWN!, You are creating too fast!', {
-          duration: 4000,
-          icon: "😐"
-        })
-      }
-      toast.error('Failed to create note!');
+      console.error('Creating Note has been crashed', error)
+     
     }
   };
 
